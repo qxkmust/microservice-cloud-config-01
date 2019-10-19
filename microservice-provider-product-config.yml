@@ -1,0 +1,97 @@
+﻿spring:
+  profiles:
+    active: dev #激活开发环境配置
+--- #连接符
+spring:
+  profiles: dev #开发环境
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/springcloud_db01?serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    springboot2.0默认使用Hikari数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 数据源其他配置, DataSourceProperties中没有相关属性,默认无法绑定，需要在配置类中绑定以下属性
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,logback
+    maxPoolPreparedStatementPerConnectionSize: 25
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  application:
+    name: microservice-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  config-location: classpath:mybatis-config.xml
+server:
+  port: 8001
+
+eureka:
+  client:
+    registerWithEureka: true # 服务注册开关
+    fetchRegistry: true # 服务发现开关
+    serviceUrl: # 客户端(服务提供者)注册到哪一个Eureka Server服务注册中心，多个用逗号分隔
+      defaultZone: http://eureka6001.com:6001/eureka,http://eureka6002.com:6002/eureka
+  instance:
+    instanceId: ${spring.application.name}:${server.port} # 指定实例ID,就不会显示主机名了
+    preferIpAddress: true #访问路径显示Ip地址
+  server:
+    enable-self-preservation: false #关闭自我保护模式（默认是开启）
+---
+spring:
+  profiles: prod #生产环境
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/springcloud_db01?serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    springboot2.0默认使用Hikari数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 数据源其他配置, DataSourceProperties中没有相关属性,默认无法绑定，需要在配置类中绑定以下属性
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,logback
+    maxPoolPreparedStatementPerConnectionSize: 25
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  application:
+    name: microservice-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  config-location: classpath:mybatis-config.xml
+server:
+  port: 8001
+
+eureka:
+  client:
+    registerWithEureka: true # 服务注册开关
+    fetchRegistry: true # 服务发现开关
+    serviceUrl: # 客户端(服务提供者)注册到哪一个Eureka Server服务注册中心，多个用逗号分隔
+      defaultZone: http://eureka6001.com:6001/eureka,http://eureka6002.com:6002/eureka
+  instance:
+    instanceId: ${spring.application.name}:${server.port} # 指定实例ID,就不会显示主机名了
+    preferIpAddress: true #访问路径显示Ip地址
+  server:
+    enable-self-preservation: true #生产环境开启自我保护模式
