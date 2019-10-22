@@ -54,7 +54,7 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://127.0.0.1:3306/springcloud_db01?serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/springcloud_db02?serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    springboot2.0默认使用Hikari数据源
     type: com.alibaba.druid.pool.DruidDataSource
